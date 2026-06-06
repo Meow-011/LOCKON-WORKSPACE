@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="source/images/lockon-logo.svg" alt="LOCKON Workspace Logo" width="300" />
+  <img src="source/images/lockon-logo.svg" alt="LOCKON Workspace Logo" width="500" />
 </p>
 
 <h1 align="center">LOCKON Workspace</h1>
