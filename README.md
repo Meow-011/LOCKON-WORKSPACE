@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="source/images/lockon-logo.svg" alt="LOCKON Workspace Logo" width="150" />
+  <img src="source/images/lockon-logo.svg" alt="LOCKON Workspace Logo" width="300" />
 </p>
 
 <h1 align="center">LOCKON Workspace</h1>
@@ -37,19 +37,19 @@ LOCKON Workspace goes beyond standard Mattermost by introducing significant UI/U
 
 ## Tech Stack
 
-| Component | Technology | Description |
-|-----------|------------|-------------|
-| **Core Platform** | Mattermost Team Edition | The base open-source collaboration server (Go/React). |
-| **Custom Login Page** | React, TypeScript, SCSS | Dynamic SVG backgrounds, branded login card with animations. |
-| **Channel Tabs UI** | React, TypeScript, SCSS | Integrated directly into Core source (`components/channel_tabs/`). |
-| **Channel Tabs Backend** | Go (Plugin Server) | Headless API server for Links/Notes data (KV Store). |
-| **Home Dashboard** | React, TypeScript, SCSS | Core-integrated widgets (`components/home_dashboard/`). |
-| **LOCKON AI Panel** | React, TypeScript, SCSS | AI assistant panel (`components/lockon_ai/`). |
-| **Home Sidebar Plugin** | Go, React (Plugin) | Left-sidebar Home link (`lockon-home-tab` plugin). |
-| **Database** | PostgreSQL | Primary relational database for all workspace data. |
-| **Reverse Proxy** | Nginx | Handles SSL termination and routes web traffic. |
-| **Deployment** | Docker & Docker Compose | Containerized architecture for easy scaling and portability. |
-| **Monitoring** | Prometheus & Grafana | System metrics and performance monitoring overlays. |
+| Component                | Technology              | Description                                                        |
+| ------------------------ | ----------------------- | ------------------------------------------------------------------ |
+| **Core Platform**        | Mattermost Team Edition | The base open-source collaboration server (Go/React).              |
+| **Custom Login Page**    | React, TypeScript, SCSS | Dynamic SVG backgrounds, branded login card with animations.       |
+| **Channel Tabs UI**      | React, TypeScript, SCSS | Integrated directly into Core source (`components/channel_tabs/`). |
+| **Channel Tabs Backend** | Go (Plugin Server)      | Headless API server for Links/Notes data (KV Store).               |
+| **Home Dashboard**       | React, TypeScript, SCSS | Core-integrated widgets (`components/home_dashboard/`).            |
+| **LOCKON AI Panel**      | React, TypeScript, SCSS | AI assistant panel (`components/lockon_ai/`).                      |
+| **Home Sidebar Plugin**  | Go, React (Plugin)      | Left-sidebar Home link (`lockon-home-tab` plugin).                 |
+| **Database**             | PostgreSQL              | Primary relational database for all workspace data.                |
+| **Reverse Proxy**        | Nginx                   | Handles SSL termination and routes web traffic.                    |
+| **Deployment**           | Docker & Docker Compose | Containerized architecture for easy scaling and portability.       |
+| **Monitoring**           | Prometheus & Grafana    | System metrics and performance monitoring overlays.                |
 
 ## System Architecture
 
@@ -126,6 +126,7 @@ docker compose -f docker-compose.yml \
 ```
 
 > **Note:** For production, update `.env` with:
+>
 > - `DOMAIN=your.domain.com`
 > - `MM_SERVICESETTINGS_SITEURL=https://your.domain.com`
 > - Valid SSL certificates in `./volumes/web/cert/`
@@ -141,6 +142,7 @@ docker compose -f docker-compose.yml \
 ```
 
 Backups are saved to `./backups/` and include:
+
 - PostgreSQL database dump (`.sql.gz`)
 - Mattermost config + `.env` (`.tar.gz`)
 
@@ -149,11 +151,13 @@ Backups are saved to `./backups/` and include:
 If you want to completely wipe all data and start fresh, you can use the deep clean scripts. This will permanently delete your database and all files in `./volumes/`.
 
 **For Windows (PowerShell):**
+
 ```powershell
 .\scripts\clean.ps1
 ```
 
 **For Linux/macOS:**
+
 ```bash
 ./scripts/clean.sh
 ```
@@ -220,10 +224,10 @@ LOCKON-WORKSPACE/
 
 When using the production overlay, the following dashboards are available:
 
-| Service    | URL                        | Description                |
-|------------|----------------------------|----------------------------|
-| LOCKON     | `https://your.domain.com`  | Team collaboration platform|
-| Grafana    | `http://your.domain.com:3000` | Metrics dashboard          |
+| Service | URL                           | Description                 |
+| ------- | ----------------------------- | --------------------------- |
+| LOCKON  | `https://your.domain.com`     | Team collaboration platform |
+| Grafana | `http://your.domain.com:3000` | Metrics dashboard           |
 
 ## Acknowledgments
 
