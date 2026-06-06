@@ -234,5 +234,6 @@ This project is built upon [Mattermost](https://mattermost.com/) — an open-sou
 
 ## License
 
-The Docker deployment configuration and custom LOCKON plugins in this repository are provided "AS-IS". 
-Mattermost Team Edition is licensed under the [MIT License](https://github.com/mattermost/mattermost/blob/master/LICENSE.txt).
+The Docker deployment configuration, scripts, and custom LOCKON plugins in this repository are provided under the **Apache 2.0 License** (as inherited from the original `mattermost/docker` project).
+
+The modified Mattermost Server source code within the `source/mattermost/` directory is subject to the **GNU AGPL v3.0 License**, in accordance with the official Mattermost source code licensing terms. See `source/mattermost/LICENSE.txt` for full details.
