@@ -13,8 +13,6 @@
 
 A production-grade team collaboration platform built on [Mattermost](https://mattermost.com/) Team Edition, heavily customized as **LOCKON Workspace**. It features a modern Cream Workspace theme, custom login experience, integrated Channel Tabs (Pins, Files, Links, Notes), Home Dashboard, LOCKON AI Panel, and is deployed via Docker Compose with a Custom Source Code Build Pipeline.
 
-</br>
-
 <p align="center">
   <img src="source/images/forREADME/home-preview.png" alt="LOCKON Workspace — Home Dashboard" width="900" />
 </p>
