@@ -65,6 +65,9 @@ source/
 │       │   ├── lockon_ai/              # ★ LOCKON AI Panel (Core Integration)
 │       │   ├── login/login.scss        # ★ Custom Login Page Styles
 │       │   └── header_footer_route/    # ★ Login Header/Footer with LOCKON branding
+│       ├── images/
+│       │   ├── channel-tabs-icon.svg   # ★ App Bar icon for Channel Tabs
+│       │   └── lockon-ai-icon.svg      # ★ App Bar icon for LOCKON AI
 │       ├── plugins/lockon_init.ts      # ★ App startup registration
 │       ├── sass/routes/_lockon-branding.scss  # ★ Global branding CSS overrides
 │       └── root.html                   # ★ Custom title & favicon
@@ -207,6 +210,7 @@ LOCKON-WORKSPACE/
 │   │   ├── lockon-logo.svg            # LOCKON brand logo
 │   │   ├── logo.svg                   # Favicon / brand mark
 │   │   └── loginbg/                   # Login page background SVGs
+│   ├── .dockerignore                  # Docker build context exclusions
 │   └── Dockerfile                     # Multi-stage build instructions
 ├── .gitignore                         # Project gitignore rules
 └── README.md                          # This file
