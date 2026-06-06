@@ -21,6 +21,9 @@
 
 /* --- Header / Greeting --- */
 .home-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
     margin-bottom: 32px;
     padding: 0 0 16px 0;
     background: transparent;
@@ -28,8 +31,16 @@
     border-bottom: 1px solid rgba(61, 60, 64, 0.1);
 }
 
+.home-profile-pic {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
 .home-greeting h1 {
-    margin: 0 0 8px;
+    margin: 0 0 2px;
     font-size: 28px;
     font-weight: 600;
     letter-spacing: -0.3px;

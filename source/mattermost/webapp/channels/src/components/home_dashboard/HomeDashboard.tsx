@@ -35,10 +35,10 @@ const HomeDashboard: React.FC = () => {
 
     const getGreeting = () => {
         const hour = currentTime.getHours();
-        if (hour < 12) return <><i className="icon icon-white-balance-sunny" /> Good Morning</>;
-        if (hour < 17) return <><i className="icon icon-weather-sunny" /> Good Afternoon</>;
-        if (hour < 21) return <><i className="icon icon-weather-sunset" /> Good Evening</>;
-        return <><i className="icon icon-weather-night" /> Good Night</>;
+        if (hour < 12) return '🌅Good Morning';
+        if (hour < 17) return '☀️Good Afternoon';
+        if (hour < 21) return '🌆Good Evening';
+        return '🌙Good Night';
     };
 
     const getDisplayName = () => {
@@ -51,6 +51,13 @@ const HomeDashboard: React.FC = () => {
             <div className="home-dashboard-inner">
                 {/* Header Section */}
                 <div className="home-header">
+                    {user && (
+                        <img 
+                            src={`${API_BASE}/users/${user.id}/image`} 
+                            alt="Profile" 
+                            className="home-profile-pic" 
+                        />
+                    )}
                     <div className="home-greeting">
                         <h1>{getGreeting()}, {getDisplayName()}!</h1>
                         <p className="home-date">

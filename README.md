@@ -13,6 +13,12 @@
 
 A production-grade team collaboration platform built on [Mattermost](https://mattermost.com/) Team Edition, heavily customized as **LOCKON Workspace**. It features a modern Cream Workspace theme, custom login experience, integrated Channel Tabs (Pins, Files, Links, Notes), Home Dashboard, LOCKON AI Panel, and is deployed via Docker Compose with a Custom Source Code Build Pipeline.
 
+</br>
+
+<p align="center">
+  <img src="source/images/forREADME/home-preview.png" alt="LOCKON Workspace — Home Dashboard" width="900" />
+</p>
+
 ## Key Features & Customizations
 
 LOCKON Workspace goes beyond standard Mattermost by introducing significant UI/UX improvements:
@@ -30,7 +36,13 @@ LOCKON Workspace goes beyond standard Mattermost by introducing significant UI/U
   - **Recent Channels**: Quickly jump to recently visited channels.
   - **Saved Posts**: Bookmarked messages for quick access.
   - **Quick Actions**: Shortcuts for common tasks.
-- **LOCKON AI Panel (Core Integration)**: An AI assistant panel integrated into the App Bar, providing conversational AI capabilities within the workspace.
+- **LOCKON AI Panel (Core Integration)**: A native AI assistant panel integrated directly into the App Bar, powered by a local **Ollama** LLM backend. Key capabilities include:
+  - **Default Model**: `gemma4:12b` (Gemma 4 12B parameters) — configurable in source.
+  - **Streaming Responses**: Real-time token-by-token output for a responsive chat experience.
+  - **Markdown & Code Highlighting**: Full GFM markdown rendering with syntax-highlighted code blocks (via `react-syntax-highlighter`).
+  - **Stop Generation**: Users can halt AI response generation mid-stream.
+  - **Suggested Prompts**: Pre-defined quick-start prompts for new users.
+  - **Copy to Clipboard**: One-click copy for AI responses and code blocks.
 - **LOCKON Home Sidebar (`lockon-home-tab` plugin)**: A native left-sidebar "Home" link integration providing quick navigation to the Home Dashboard.
 - **Custom Cream Theme**: A meticulously designed warm cream aesthetic (`#F3F2EF` backgrounds, `#C1A173` accents) applied natively to the build.
 - **Global Branding & UI Overrides**: Mattermost branding is fully replaced with LOCKON via Core SCSS (`_lockon-branding.scss`). Telemetry, feedback buttons, and default hover states are cleanly overridden.
@@ -45,6 +57,7 @@ LOCKON Workspace goes beyond standard Mattermost by introducing significant UI/U
 | **Channel Tabs Backend** | Go (Plugin Server)      | Headless API server for Links/Notes data (KV Store).               |
 | **Home Dashboard**       | React, TypeScript, SCSS | Core-integrated widgets (`components/home_dashboard/`).            |
 | **LOCKON AI Panel**      | React, TypeScript, SCSS | AI assistant panel (`components/lockon_ai/`).                      |
+| **LOCKON AI Backend**    | Ollama (Local LLM)      | Local AI inference server. Default model: `gemma4:12b`.            |
 | **Home Sidebar Plugin**  | Go, React (Plugin)      | Left-sidebar Home link (`lockon-home-tab` plugin).                 |
 | **Database**             | PostgreSQL              | Primary relational database for all workspace data.                |
 | **Reverse Proxy**        | Nginx                   | Handles SSL termination and routes web traffic.                    |
@@ -162,6 +175,51 @@ If you want to completely wipe all data and start fresh, you can use the deep cl
 ./scripts/clean.sh
 ```
 
+## LOCKON AI Setup
+
+LOCKON AI uses **Ollama** as a local LLM backend. The AI panel connects to Ollama running on the host machine.
+
+### Prerequisites
+
+1. **Install Ollama** on the host machine (not inside Docker):
+   - **Windows**: Download from [ollama.com/download](https://ollama.com/download)
+   - **macOS**: `brew install ollama`
+   - **Linux**: `curl -fsSL https://ollama.com/install.sh | sh`
+
+2. **Pull the default model**:
+
+   ```bash
+   ollama pull gemma4:12b
+   ```
+
+3. **Start the Ollama server** (if not running as a service):
+   ```bash
+   ollama serve
+   ```
+
+### Configuration
+
+| Setting         | Default Value                     | Location                      |
+| --------------- | --------------------------------- | ----------------------------- |
+| Model           | `gemma4:12b`                      | `lockon_ai_panel.tsx` line 18 |
+| Ollama Endpoint | `http://localhost:11434/api/chat` | `lockon_ai_panel.tsx` line 19 |
+| Streaming       | Enabled                           | Built-in                      |
+
+To change the model, edit the `DEFAULT_MODEL` constant in `source/mattermost/webapp/channels/src/components/lockon_ai/lockon_ai_panel.tsx` and rebuild the Docker image.
+
+### Supported Models
+
+Any Ollama-compatible model can be used. Some recommended options:
+
+| Model             | Size    | Description                          |
+| ----------------- | ------- | ------------------------------------ |
+| `gemma4:12b`      | ~8 GB   | Default. Strong general-purpose LLM  |
+| `llama3.1:8b`     | ~4.7 GB | Fast, good for coding tasks          |
+| `mistral:7b`      | ~4.1 GB | Lightweight, quick responses         |
+| `deepseek-r1:14b` | ~9 GB   | Strong reasoning and code generation |
+
+> **Note:** The Ollama server must be accessible from the browser at `localhost:11434`. If running Mattermost inside Docker but Ollama on the host, ensure the browser (not the container) makes the API calls — which is the default behavior since LOCKON AI runs client-side in the browser.
+
 ## Development & Customization
 
 As this is a fully customizable workspace, you can modify the source code and rebuild the platform:
@@ -217,6 +275,9 @@ LOCKON-WORKSPACE/
 │   ├── .dockerignore                  # Docker build context exclusions
 │   └── Dockerfile                     # Multi-stage build instructions
 ├── .gitignore                         # Project gitignore rules
+├── CODE_OF_CONDUCT.md                 # Community code of conduct
+├── CONTRIBUTING.md                    # Contributing guidelines
+├── SECURITY.md                        # Security policy
 └── README.md                          # This file
 ```
 
@@ -233,7 +294,7 @@ When using the production overlay, the following dashboards are available:
 
 This project is built upon [Mattermost](https://mattermost.com/) — an open-source platform for secure collaboration. We gratefully acknowledge the Mattermost team and community for creating and maintaining this excellent software.
 
-- **Mattermost Server**: [github.com/mattermost/mattermost](https://github.com/mattermost/mattermost) (MIT License)
+- **Mattermost Server**: [github.com/mattermost/mattermost](https://github.com/mattermost/mattermost) (AGPL v3.0 License)
 - **Docker Deployment**: Originally based on [github.com/mattermost/docker](https://github.com/mattermost/docker) (Apache 2.0 License)
 
 ## License
