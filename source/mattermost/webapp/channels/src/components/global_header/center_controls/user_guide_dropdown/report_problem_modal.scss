@@ -1,0 +1,257 @@
+.modal {
+    .lockon-report-problem-modal {
+        display: flex !important;
+        align-items: center;
+        min-height: calc(100% - 60px);
+        margin: auto;
+        max-width: 560px;
+
+        .modal-content {
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(61, 60, 64, 0.08);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .modal-header {
+            background: #FAFAFA;
+            border-bottom: 1px solid rgba(61, 60, 64, 0.08);
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+
+            .modal-title {
+                margin: 0;
+                font-size: 20px;
+                font-weight: 700;
+                color: #4A3F35;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                i {
+                    color: #C1A173;
+                    font-size: 24px;
+                }
+            }
+
+            .close {
+                padding: 24px 32px;
+                margin: -24px -32px -24px auto;
+                opacity: 0.4;
+                transition: opacity 0.2s;
+                background: transparent !important;
+                border: none;
+                outline: none;
+
+                &:hover {
+                    opacity: 1;
+                    background: transparent !important;
+                }
+            }
+        }
+
+        .modal-body {
+            padding: 32px;
+            background: white;
+            max-height: 70vh;
+            overflow-y: auto;
+
+            /* Custom Scrollbar */
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba(61, 60, 64, 0.15);
+                border-radius: 10px;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: rgba(61, 60, 64, 0.25);
+            }
+        }
+
+        .report-problem-form {
+            .form-group {
+                margin-bottom: 20px;
+
+                label {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #4A3F35;
+                    margin-bottom: 8px;
+
+                    i {
+                        color: #C1A173;
+                        font-size: 18px;
+                    }
+                }
+
+                .form-control {
+                    border: 1px solid rgba(61, 60, 64, 0.15);
+                    border-radius: 8px;
+                    padding: 10px 14px;
+                    font-size: 14px;
+                    color: #4A3F35;
+                    transition: all 0.2s ease;
+                    background: #FAFAF8;
+
+                    &:focus {
+                        border-color: #C1A173;
+                        box-shadow: 0 0 0 2px rgba(193, 161, 115, 0.15);
+                        outline: none;
+                        background: #FFFFFF;
+                    }
+
+                    &::placeholder {
+                        color: rgba(74, 63, 53, 0.4);
+                    }
+                }
+
+                textarea.form-control {
+                    resize: vertical;
+                    min-height: 100px;
+                    line-height: 1.6;
+                }
+
+                select.form-control {
+                    cursor: pointer;
+                    appearance: none;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%234A3F35' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 14px center;
+                    padding-right: 36px;
+                }
+            }
+        }
+
+        .report-meta-info {
+            display: flex;
+            gap: 20px;
+            padding: 12px 16px;
+            background: rgba(193, 161, 115, 0.06);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #6B5B4D;
+
+            span {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                i {
+                    font-size: 16px;
+                    color: #C1A173;
+                }
+            }
+        }
+
+        .report-error {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: rgba(244, 67, 54, 0.08);
+            border: 1px solid rgba(244, 67, 54, 0.2);
+            border-radius: 8px;
+            color: #D32F2F;
+            font-size: 13px;
+            margin-bottom: 20px;
+
+            i {
+                font-size: 18px;
+                flex-shrink: 0;
+            }
+        }
+
+        .report-submit-btn {
+            width: 100%;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #A88654 0%, #C1A173 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+
+            i {
+                font-size: 18px;
+            }
+
+            &:hover:not(:disabled) {
+                background: linear-gradient(135deg, #C1A173 0%, #E3CFA8 100%);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(193, 161, 115, 0.3);
+            }
+
+            &:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+            }
+
+            .icon-spin {
+                animation: spin 1s linear infinite;
+            }
+        }
+
+        .report-success {
+            text-align: center;
+            padding: 32px 16px;
+
+            .success-icon {
+                margin-bottom: 20px;
+
+                i {
+                    font-size: 56px;
+                    color: #4CAF50;
+                    animation: successPop 0.4s ease-out;
+                }
+            }
+
+            h3 {
+                font-size: 20px;
+                font-weight: 700;
+                color: #4A3F35;
+                margin-bottom: 8px;
+            }
+
+            p {
+                font-size: 14px;
+                line-height: 1.6;
+                color: #6B5B4D;
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes successPop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -1,6 +1,67 @@
-volumes
-data
-certs
+# Data volumes (bind mounts)
+volumes/
+data/
+certs/
+backups/
+
+# Environment secrets
 .env
 docker-compose.override.yml
 docker-compose.override.yaml
+
+# Security: never commit secrets or generated certs
+*.pem
+*.key
+*.crt
+# Exception: DH params is a config file, not a secret
+!nginx/dhparams4096.pem
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Source Code Build Artifacts
+source/mattermost/node_modules/
+source/mattermost/webapp/channels/dist/
+source/mattermost/webapp/channels/node_modules/
+source/mattermost/webapp/node_modules/
+source/mattermost/server/bin/
+source/mattermost/server/dist/
+source/mattermost/.git/
+
+# Root-level temp files (from build/rename scripts)
+node_modules/
+package.json
+package-lock.json
+rename_mattermost.js
+convert.js
+
+# Custom Plugin Build Artifacts
+source/lockon-home-tab/webapp/node_modules/
+source/lockon-home-tab/server/dist/
+source/lockon-home-tab/dist/
+source/lockon-home-tab/*.tar.gz
+source/lockon-channel-tabs/server/dist/
+source/lockon-channel-tabs/dist/
+source/lockon-channel-tabs/*.tar.gz
+
+# Stray build artifacts at source root
+source/*.tar.gz
+
+# Plugin webapp build output
+source/lockon-home-tab/webapp/dist/
+
+# IDEs and Editors
+.vscode/
+.idea/
+.gemini/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

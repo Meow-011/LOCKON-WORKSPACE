@@ -11,28 +11,32 @@ jobs:
     name: Validate Docker Compose Files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup environment file
         run: |
           cp env.example .env
+          # Replace placeholder passwords for CI testing
+          sed -i 's/<CHANGE_ME_GENERATE_STRONG_PASSWORD>/ci_test_password_32chars_long!!/g' .env
 
       - name: Validate base docker-compose file
-        run: docker compose config
+        run: docker compose config --quiet
 
       - name: Validate docker-compose with NGINX
-        run: |
-          docker compose -f docker-compose.yml -f docker-compose.nginx.yml config
+        run: docker compose -f docker-compose.yml -f docker-compose.nginx.yml config --quiet
 
       - name: Validate docker-compose without NGINX
-        run: docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml config
+        run: docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml config --quiet
+
+      - name: Validate docker-compose production
+        run: docker compose -f docker-compose.yml -f docker-compose.nginx.yml -f docker-compose.production.yml config --quiet
 
   test-docker-deployment:
     name: Test Docker Deployment
     runs-on: ubuntu-latest
     needs: validate-compose-files
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Create required directories
         run: |
@@ -42,33 +46,31 @@ jobs:
       - name: Setup environment file
         run: |
           cp env.example .env
-          sed -i 's/DOMAIN=mm.example.com/DOMAIN=localhost/g' .env
+          sed -i 's/<CHANGE_ME_GENERATE_STRONG_PASSWORD>/ci_test_password_32chars_long!!/g' .env
 
       - name: Start Mattermost without NGINX
         run: |
-          # Configure docker-compose to use without-nginx setup
           docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml up -d
 
-      - name: Verify containers are running
+      - name: Wait for services to be healthy
         run: |
-          # Allow time for containers to start
-          sleep 30
-          docker ps
+          echo "Waiting for Postgres to be healthy..."
+          timeout 120 bash -c 'until docker compose ps postgres | grep -q "healthy"; do sleep 5; done'
+          echo "Postgres is healthy!"
+
+          echo "Waiting for Mattermost to start (up to 3 minutes)..."
+          sleep 90
           docker compose ps
 
       - name: Check container logs
         run: |
-          # Check logs for any issues
-          docker compose logs mattermost --tail 20
-          docker compose logs postgres --tail 20
+          docker compose logs mattermost --tail 30
+          docker compose logs postgres --tail 10
 
       - name: Verify Mattermost API is accessible
         run: |
-          # Check that API is responding
           curl -f --retry 10 --retry-delay 5 --retry-connrefused http://localhost:8065/api/v4/system/ping || exit 1
 
       - name: Stop containers
-        run: |
-          # Clean up containers
-          docker compose down
+        run: docker compose down
         if: always()

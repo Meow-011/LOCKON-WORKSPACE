@@ -1,0 +1,119 @@
+.modal {
+    .lockon-policy-modal {
+        display: flex !important;
+        align-items: center;
+        min-height: calc(100% - 60px);
+        margin: auto;
+        max-width: 600px;
+
+        .modal-content {
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(61, 60, 64, 0.08);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .modal-header {
+            background: #FAFAFA;
+            border-bottom: 1px solid rgba(61, 60, 64, 0.08);
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+
+            .modal-title {
+                margin: 0;
+                font-size: 20px;
+                font-weight: 700;
+                color: #4A3F35;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                i {
+                    color: #C1A173;
+                    font-size: 24px;
+                }
+            }
+
+            .close {
+                padding: 24px 32px;
+                margin: -24px -32px -24px auto;
+                opacity: 0.4;
+                transition: opacity 0.2s;
+                background: transparent !important;
+                border: none;
+                outline: none;
+
+                &:hover {
+                    opacity: 1;
+                    background: transparent !important;
+                }
+            }
+        }
+
+        .modal-body {
+            padding: 32px;
+            background: white;
+            max-height: 60vh;
+            overflow-y: auto;
+            
+            /* Custom Scrollbar for sleek look */
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba(61, 60, 64, 0.15);
+                border-radius: 10px;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: rgba(61, 60, 64, 0.25);
+            }
+        }
+
+        .policy-content {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #6B5B4D;
+
+            h3 {
+                font-size: 16px;
+                font-weight: 700;
+                color: #C1A173;
+                margin-top: 24px;
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+
+            ul {
+                padding-left: 20px;
+                margin-bottom: 16px;
+            }
+
+            li {
+                margin-bottom: 8px;
+            }
+
+            p {
+                margin-bottom: 16px;
+                
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            strong {
+                color: #4A3F35;
+                font-weight: 600;
+            }
+        }
+    }
+}

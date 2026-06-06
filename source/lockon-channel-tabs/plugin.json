@@ -1,0 +1,50 @@
+{
+    "id": "com.lockon.channel-tabs-v3",
+    "name": "Channel Tabs",
+    "description": "Right Hand Sidebar for Channel Tabs (Pins, Files, Links)",
+    "homepage_url": "https://github.com/mattermost/mattermost-plugin-github",
+    "support_url": "https://github.com/mattermost/mattermost-plugin-github/issues",
+    "release_notes_url": "https://github.com/mattermost/mattermost-plugin-github/releases/tag/v0.1.0",
+    "icon_path": "assets/icon.svg",
+    "version": "1.0.13",
+    "min_server_version": "9.0.0",
+    "server": {
+        "executables": {
+            "linux-amd64": "server/dist/plugin-linux-amd64",
+            "windows-amd64": "server/dist/plugin-windows-amd64.exe"
+        }
+    },
+    "settings_schema": {
+        "header": "Configure LOCKON Channel Tabs",
+        "settings": [
+            {
+                "key": "EnablePinsTab",
+                "display_name": "Enable Pins Tab",
+                "type": "bool",
+                "default": true,
+                "help_text": "Show the Pins tab in the channel sidebar panel."
+            },
+            {
+                "key": "EnableFilesTab",
+                "display_name": "Enable Files Tab",
+                "type": "bool",
+                "default": true,
+                "help_text": "Show the Files tab in the channel sidebar panel."
+            },
+            {
+                "key": "EnableLinksTab",
+                "display_name": "Enable Links Tab",
+                "type": "bool",
+                "default": true,
+                "help_text": "Show the Links tab in the channel sidebar panel."
+            },
+            {
+                "key": "EnableNotesTab",
+                "display_name": "Enable Notes Tab",
+                "type": "bool",
+                "default": true,
+                "help_text": "Show the Notes tab in the channel sidebar panel."
+            }
+        ]
+    }
+}

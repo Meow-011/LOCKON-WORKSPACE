@@ -1,13 +1,18 @@
-# https://docs.docker.com/compose/environment-variables/
+# =============================================================================
+# LOCKON Workspace — Docker Compose (Base)
+# =============================================================================
+# Usage:
+#   Development:  docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml up -d
+#   Production:   docker compose -f docker-compose.yml -f docker-compose.nginx.yml -f docker-compose.production.yml up -d
+# =============================================================================
+
 services:
   postgres:
     image: postgres:${POSTGRES_IMAGE_TAG}
     restart: ${RESTART_POLICY}
     security_opt:
       - no-new-privileges:true
-    # See https://docs.mattermost.com/administration-guide/scale/scaling-for-enterprise.html
-    # for guidance on memory limits based on your deployment size.
-    mem_limit: 16G
+    mem_limit: 2G
     read_only: true
     tmpfs:
       - /tmp
@@ -15,24 +20,35 @@ services:
     volumes:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql
     environment:
-      # timezone inside container
       - TZ
-
-      # necessary Postgres options/variables
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - backend
 
   mattermost:
     depends_on:
-      - postgres
-    image: mattermost/${MATTERMOST_IMAGE}:${MATTERMOST_IMAGE_TAG}
+      postgres:
+        condition: service_healthy
+    build:
+      context: ./source
+      dockerfile: Dockerfile
+    image: lockon-workspace:latest
     restart: ${RESTART_POLICY}
     security_opt:
       - no-new-privileges:true
-    # See https://docs.mattermost.com/administration-guide/scale/scaling-for-enterprise.html
-    # for guidance on memory limits based on your deployment size.
-    mem_limit: 4G
+    mem_limit: 2G
     read_only: ${MATTERMOST_CONTAINER_READONLY}
     tmpfs:
       - /tmp
@@ -43,31 +59,32 @@ services:
       - ${MATTERMOST_PLUGINS_PATH}:/mattermost/plugins:rw
       - ${MATTERMOST_CLIENT_PLUGINS_PATH}:/mattermost/client/plugins:rw
       - ${MATTERMOST_BLEVE_INDEXES_PATH}:/mattermost/bleve-indexes:rw
-      # When you want to use SSO with GitLab, you have to add the cert pki chain of GitLab inside Alpine
-      # to avoid Token request failed: certificate signed by unknown authority 
-      # (link: https://github.com/mattermost/mattermost-server/issues/13059 and https://github.com/mattermost/docker/issues/34)
-      # - ${GITLAB_PKI_CHAIN_PATH}:/etc/ssl/certs/pki_chain.pem:ro
     environment:
-      # timezone inside container
       - TZ
-
-      # necessary Mattermost options/variables (see env.example)
       - MM_SQLSETTINGS_DRIVERNAME
       - MM_SQLSETTINGS_DATASOURCE
-
-      # necessary for bleve
       - MM_BLEVESETTINGS_INDEXDIR
-
-      # additional settings
       - MM_SERVICESETTINGS_SITEURL
+      - MM_LOGSETTINGS_CONSOLELEVEL
+    healthcheck:
+      test: ["CMD", "/mattermost/bin/mattermost", "version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+    networks:
+      - frontend
+      - backend
 
-# If you use rolling image tags and feel lucky watchtower can automatically pull new images and
-# instantiate containers from it. https://containrrr.dev/watchtower/
-# Please keep in mind watchtower will have access on the docker socket. This can be a security risk.
-#
-#  watchtower:
-#    container_name: watchtower
-#    image: containrrr/watchtower:latest
-#    restart: unless-stopped
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
+# Network isolation: postgres is only accessible from backend network
+networks:
+  frontend:
+    name: lockon-frontend
+  backend:
+    name: lockon-backend
+    internal: true

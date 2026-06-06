@@ -1,0 +1,38 @@
+// =============================================================================
+// LOCKON Workspace — Branding Overrides
+// =============================================================================
+// All LOCKON-specific CSS overrides consolidated here.
+// Previously injected via lockon-channel-tabs plugin JS, now part of core build.
+// =============================================================================
+
+// --- System Bot Post Icon: use LOCKON logo instead of default SVG ---
+.post--system .icon {
+    display: inline-block !important;
+    width: 32px !important;
+    height: 32px !important;
+    background-image: url('images/logo.svg') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.post--system .icon svg {
+    display: none !important;
+}
+
+// --- Logo images: remove border-radius for square icons ---
+img[src*='logo.svg'] {
+    border-radius: 0 !important;
+    transform: scale(0.9);
+}
+
+// --- Product menu / Team sidebar button hover: transparent background ---
+button#sidebarTeamMenuButton,
+button#product_switch_menu {
+    &:hover,
+    &:active,
+    &:focus,
+    &[aria-expanded="true"] {
+        background: transparent !important;
+    }
+}

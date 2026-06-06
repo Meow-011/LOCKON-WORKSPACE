@@ -1,0 +1,17 @@
+{
+    "id": "com.lockon.home-tab",
+    "name": "LOCKON Home",
+    "description": "A Home dashboard that shows unreads, threads, saved posts, and drafts in one place.",
+    "homepage_url": "",
+    "icon_path": "assets/icon.svg",
+    "version": "1.0.4",
+    "min_server_version": "9.0.0",
+    "server": {
+        "executables": {
+            "linux-amd64": "server/dist/plugin-linux-amd64"
+        }
+    },
+    "webapp": {
+        "bundle_path": "webapp/dist/main.js"
+    }
+}

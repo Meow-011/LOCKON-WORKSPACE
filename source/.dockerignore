@@ -1,0 +1,4 @@
+mattermost/webapp/node_modules
+mattermost/server/node_modules
+mattermost/node_modules
+mattermost/webapp/channels/dist

@@ -1,0 +1,20 @@
+# =============================================================================
+# LOCKON Workspace — Prometheus Configuration
+# =============================================================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Mattermost application metrics
+  - job_name: 'mattermost'
+    static_configs:
+      - targets: ['mattermost:8067']
+        labels:
+          instance: 'lockon-workspace'
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
