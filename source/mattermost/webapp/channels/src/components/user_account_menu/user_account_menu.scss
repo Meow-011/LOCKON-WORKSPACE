@@ -30,6 +30,31 @@
             line-height: 18px;
             @include mixins.textEllipsis;
         }
+
+        .user-role-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            margin-top: 4px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: fit-content;
+            
+            &.role-badge-admin {
+                background-color: rgba(var(--error-text-color-rgb), 0.15);
+                color: var(--error-text);
+            }
+            &.role-badge-member {
+                background-color: rgba(var(--button-bg-rgb), 0.15);
+                color: var(--button-bg);
+            }
+            &.role-badge-guest {
+                background-color: rgba(var(--center-channel-color-rgb), 0.15);
+                color: rgba(var(--center-channel-color-rgb), 0.8);
+            }
+        }
     }
 
     .userAccountMenu_setCustomStatusMenuItem {

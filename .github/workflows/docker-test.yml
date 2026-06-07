@@ -48,6 +48,11 @@ jobs:
           cp env.example .env
           sed -i 's/<CHANGE_ME_GENERATE_STRONG_PASSWORD>/ci_test_password_32chars_long!!/g' .env
 
+      - name: Build Custom Mattermost Image
+        run: |
+          # Building the custom webapp can take 3-5 minutes on CI runners
+          docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml build mattermost
+
       - name: Start Mattermost without NGINX
         run: |
           docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml up -d
@@ -58,18 +63,14 @@ jobs:
           timeout 120 bash -c 'until docker compose ps postgres | grep -q "healthy"; do sleep 5; done'
           echo "Postgres is healthy!"
 
-          echo "Waiting for Mattermost to start (up to 3 minutes)..."
-          sleep 90
-          docker compose ps
-
+          echo "Waiting for Mattermost to start (up to 5 minutes)..."
+          timeout 300 bash -c 'until curl -f -s http://localhost:8065/api/v4/system/ping; do sleep 10; done'
+          echo "Mattermost is up and running!"
+          
       - name: Check container logs
         run: |
           docker compose logs mattermost --tail 30
           docker compose logs postgres --tail 10
-
-      - name: Verify Mattermost API is accessible
-        run: |
-          curl -f --retry 10 --retry-delay 5 --retry-connrefused http://localhost:8065/api/v4/system/ping || exit 1
 
       - name: Stop containers
         run: docker compose down

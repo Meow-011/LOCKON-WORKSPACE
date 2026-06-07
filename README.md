@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="source/images/lockon-logo.svg" alt="LOCKON Workspace Logo" width="500" />
+  <img src="source/images/lockon-logo.svg" alt="LOCKON Workspace Logo" width="550" />
 </p>
 
 <h1 align="center">LOCKON Workspace</h1>
@@ -21,7 +21,7 @@ A production-grade team collaboration platform built on [Mattermost](https://mat
 
 LOCKON Workspace goes beyond standard Mattermost by introducing significant UI/UX improvements:
 
-- **Custom Login Page**: A branded login experience featuring dynamic SVG background images (randomly selected on each visit), solid white login card with smooth fade-in animation, input field icons, and LOCKON branding with workspace badge in the header.
+- **Custom Login Page**: A branded login experience featuring dynamic SVG background images, smooth fade-in animations, custom input icons, LOCKON branding, and built-in informational popups (About, Privacy, Terms, Help) integrated directly into the footer.
 - **Channel Tabs (Core Integration)**: A Right-Hand Side (RHS) panel system built directly into the Mattermost webapp source code. Accessible via the App Bar, it seamlessly integrates:
   - **Pins**: A quick-access view for pinned messages.
   - **Files**: Aggregates all files and documents shared in the channel.
@@ -35,7 +35,9 @@ LOCKON Workspace goes beyond standard Mattermost by introducing significant UI/U
   - **Saved Posts**: Bookmarked messages for quick access.
   - **Quick Actions**: Shortcuts for common tasks.
 - **LOCKON AI Panel (Core Integration)**: A native AI assistant panel integrated directly into the App Bar, powered by a local **Ollama** LLM backend. Key capabilities include:
-  - **Default Model**: `gemma4:12b` (Gemma 4 12B parameters) — configurable in source.
+  - **AI Message Actions**: Native post dropdown actions (Translate, Summarize, Explain) that render results inline directly below the message.
+  - **AI Configuration UI**: Built-in settings panel (⚙️) to dynamically configure the Ollama endpoint, active model, and max context tokens via a visual slider.
+  - **Default Model**: `gemma4:12b` (Gemma 4 12B parameters) — configurable in UI.
   - **Streaming Responses**: Real-time token-by-token output for a responsive chat experience.
   - **Markdown & Code Highlighting**: Full GFM markdown rendering with syntax-highlighted code blocks (via `react-syntax-highlighter`).
   - **Stop Generation**: Users can halt AI response generation mid-stream.
@@ -197,13 +199,16 @@ LOCKON AI uses **Ollama** as a local LLM backend. The AI panel connects to Ollam
 
 ### Configuration
 
-| Setting         | Default Value                     | Location                      |
-| --------------- | --------------------------------- | ----------------------------- |
-| Model           | `gemma4:12b`                      | `lockon_ai_panel.tsx` line 18 |
-| Ollama Endpoint | `http://localhost:11434/api/chat` | `lockon_ai_panel.tsx` line 19 |
-| Streaming       | Enabled                           | Built-in                      |
+You can configure the AI directly from the web interface by opening the **LOCKON AI Panel** and clicking the Settings (⚙️) icon.
 
-To change the model, edit the `DEFAULT_MODEL` constant in `source/mattermost/webapp/channels/src/components/lockon_ai/lockon_ai_panel.tsx` and rebuild the Docker image.
+| Setting         | Default Value                     | Configurable via UI |
+| --------------- | --------------------------------- | ------------------- |
+| Model           | `gemma4:12b`                      | Yes                 |
+| Ollama Endpoint | `http://localhost:11434/api/chat` | Yes                 |
+| Context Tokens  | `4096`                            | Yes (Visual Slider) |
+| Streaming       | Enabled                           | Built-in            |
+
+> **Note:** The UI configurations are saved locally in your browser (`localStorage`).
 
 ### Supported Models
 

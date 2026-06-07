@@ -31,7 +31,31 @@ export default function UserAccountNameMenuItem({profilePicture, ...rest}: Props
         }));
     }
 
+    function getRoleBadge() {
+        if (!currentUser) return null;
+        
+        let roleName = 'Member';
+        let badgeClass = 'role-badge-member';
+        
+        const roles = currentUser.roles || '';
+        if (roles.includes('system_admin')) {
+            roleName = 'System Admin';
+            badgeClass = 'role-badge-admin';
+        } else if (roles.includes('system_guest')) {
+            roleName = 'Guest';
+            badgeClass = 'role-badge-guest';
+        }
+
+        return (
+            <span className={`user-role-badge ${badgeClass}`}>
+                {roleName}
+            </span>
+        );
+    }
+
     function getLabel() {
+        const roleBadge = getRoleBadge();
+
         if (
             currentUser?.first_name?.length > 0 ||
             currentUser?.last_name?.length > 0
@@ -46,6 +70,7 @@ export default function UserAccountNameMenuItem({profilePicture, ...rest}: Props
                     <span className='userAccountMenu_nameMenuItem_secondaryLabel'>
                         {'@' + currentUser?.username}
                     </span>
+                    {roleBadge}
                 </>
             );
         }
@@ -53,9 +78,12 @@ export default function UserAccountNameMenuItem({profilePicture, ...rest}: Props
         const username = `@${currentUser?.username}`?.trim();
 
         return (
-            <h2 className='userAccountMenu_nameMenuItem_primaryLabel'>
-                {username}
-            </h2>
+            <>
+                <h2 className='userAccountMenu_nameMenuItem_primaryLabel'>
+                    {username}
+                </h2>
+                {roleBadge}
+            </>
         );
     }
 

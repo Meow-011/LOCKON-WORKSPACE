@@ -12,6 +12,7 @@ import {
     BookmarkIcon,
     BookmarkOutlineIcon,
     ContentCopyIcon,
+    CreationOutlineIcon,
     DotsHorizontalIcon,
     EmoticonPlusOutlineIcon,
     LinkVariantIcon,
@@ -23,6 +24,7 @@ import {
     PinIcon,
     PinOutlineIcon,
     ReplyOutlineIcon,
+    TextShortIcon,
     TranslateIcon,
     TrashCanOutlineIcon,
 } from '@mattermost/compass-icons/components';
@@ -599,6 +601,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const showCopyLink = !isSystemMessage && (!isBurnOnReadPost || this.props.post.user_id === this.props.userId);
         const showEdit = this.state.canEdit && !isBurnOnReadPost;
         const showFlagContent = this.props.canFlagContent;
+        const showLockonAI = !isSystemMessage && !isBurnOnReadPost && Boolean(this.props.post.message);
 
         // Delete button should show if:
         // 1. Non-BoR with delete permission, OR
@@ -606,7 +609,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const showDelete = (!isBurnOnReadPost && this.state.canDelete) || shouldShowDeleteForBoR;
 
         const firstSectionHasItems = showReply || showForward || showReactions || showFollowPost || showMarkAsUnread || showSave || showRemind || showPin || showMove;
-        const secondSectionHasItems = showShowTranslation || showCopyText || showCopyLink;
+        const secondSectionHasItems = showShowTranslation || showCopyText || showCopyLink || showLockonAI;
         const thirdSectionHasItems = showEdit || showDelete || showFlagContent;
 
         return (
@@ -793,6 +796,59 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.copyLink}
                     />
                 }
+                {showLockonAI && (
+                    <>
+                        <Menu.Separator/>
+                        <Menu.Item
+                            id={`lockon_ai_translate_${this.props.post.id}`}
+                            data-testid={`lockon_ai_translate_${this.props.post.id}`}
+                            labels={
+                                <FormattedMessage
+                                    id='lockon_ai.translate'
+                                    defaultMessage='AI Translate'
+                                />
+                            }
+                            leadingElement={<TranslateIcon size={18}/>}
+                            onClick={() => {
+                                window.dispatchEvent(new CustomEvent('lockon-ai-action', {
+                                    detail: {postId: this.props.post.id, action: 'translate', message: this.props.post.message},
+                                }));
+                            }}
+                        />
+                        <Menu.Item
+                            id={`lockon_ai_summarize_${this.props.post.id}`}
+                            data-testid={`lockon_ai_summarize_${this.props.post.id}`}
+                            labels={
+                                <FormattedMessage
+                                    id='lockon_ai.summarize'
+                                    defaultMessage='AI Summarize'
+                                />
+                            }
+                            leadingElement={<TextShortIcon size={18}/>}
+                            onClick={() => {
+                                window.dispatchEvent(new CustomEvent('lockon-ai-action', {
+                                    detail: {postId: this.props.post.id, action: 'summarize', message: this.props.post.message},
+                                }));
+                            }}
+                        />
+                        <Menu.Item
+                            id={`lockon_ai_explain_${this.props.post.id}`}
+                            data-testid={`lockon_ai_explain_${this.props.post.id}`}
+                            labels={
+                                <FormattedMessage
+                                    id='lockon_ai.explain'
+                                    defaultMessage='AI Explain'
+                                />
+                            }
+                            leadingElement={<CreationOutlineIcon size={18}/>}
+                            onClick={() => {
+                                window.dispatchEvent(new CustomEvent('lockon-ai-action', {
+                                    detail: {postId: this.props.post.id, action: 'explain', message: this.props.post.message},
+                                }));
+                            }}
+                        />
+                    </>
+                )}
                 {thirdSectionHasItems && (firstSectionHasItems || secondSectionHasItems) && <Menu.Separator/>}
                 {showEdit &&
                     <Menu.Item

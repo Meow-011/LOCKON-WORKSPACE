@@ -36,3 +36,64 @@ button#product_switch_menu {
         background: transparent !important;
     }
 }
+
+// --- Fix: Chat input textarea placeholder & focus border after navigation ---
+// When navigating away from a channel and back, the placeholder text can float
+// incorrectly and a blue focus outline can appear. These overrides ensure
+// consistent styling regardless of navigation state.
+.AdvancedTextEditor__body {
+    // Remove any unexpected browser-default blue focus outline
+    &:focus-visible,
+    &:focus-within {
+        outline: none !important;
+    }
+
+    textarea.custom-textarea {
+        // Ensure textarea has no inner border or background that breaks the container style
+        border: none !important;
+        background: transparent !important;
+        
+        // Ensure placeholder text stays in correct position
+        &::placeholder {
+            position: relative;
+            top: 0;
+            color: rgba(var(--center-channel-color-rgb), 0.5);
+        }
+
+        // Remove browser-default blue outline on the textarea itself
+        &:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+    }
+}
+
+// Placeholder overlay div (Mattermost renders placeholder as a separate div)
+[id$='_placeholder'] {
+    pointer-events: none;
+    color: rgba(var(--center-channel-color-rgb), 0.5) !important;
+}
+
+// --- Custom styling for LOCKON footer modals ---
+.lockon-footer-modal {
+    .modal-header {
+        position: relative !important;
+        padding-right: 48px !important; // Ensure title doesn't overlap button
+        
+        .close {
+            position: absolute !important;
+            right: 24px !important;
+            top: 24px !important;
+            padding: 8px !important;
+            margin: 0 !important;
+            z-index: 10 !important;
+            background: transparent !important;
+            opacity: 0.5 !important;
+            
+            &:hover {
+                opacity: 1 !important;
+            }
+        }
+    }
+}

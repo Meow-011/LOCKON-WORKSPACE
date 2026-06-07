@@ -1,0 +1,113 @@
+// Styles for LOCKON AI inline result widget
+.lockon-ai-inline-result {
+    margin: 8px 0 8px 40px;
+    background: linear-gradient(135deg, rgba(var(--button-bg-rgb), 0.06) 0%, rgba(var(--button-bg-rgb), 0.02) 100%);
+    border: 1px solid rgba(var(--button-bg-rgb), 0.15);
+    border-radius: 12px;
+    padding: 0;
+    animation: slideUpFadeInline 0.3s ease;
+    overflow: hidden;
+    position: relative;
+
+    .lockon-ai-inline-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background: rgba(var(--button-bg-rgb), 0.08);
+        border-bottom: 1px solid rgba(var(--button-bg-rgb), 0.1);
+
+        .lockon-ai-inline-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--button-bg);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            .lockon-ai-inline-icon {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        .lockon-ai-inline-actions {
+            display: flex;
+            gap: 4px;
+
+            .lockon-ai-inline-btn {
+                background: none;
+                border: none;
+                color: var(--center-channel-color-50);
+                padding: 4px;
+                border-radius: 4px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.15s ease;
+
+                &:hover {
+                    background: rgba(var(--center-channel-color-rgb), 0.08);
+                    color: var(--center-channel-color);
+                }
+
+                i {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    .lockon-ai-inline-body {
+        padding: 12px 16px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--center-channel-color);
+        white-space: pre-wrap;
+        word-break: break-word;
+
+        p {
+            margin: 0;
+        }
+
+        .lockon-ai-inline-loading {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            height: 20px;
+            padding: 0 4px;
+
+            .dot {
+                display: inline-block;
+                width: 6px;
+                height: 6px;
+                background-color: var(--button-bg);
+                opacity: 0.6;
+                border-radius: 50%;
+                animation: lockonInlineBounce 1.4s infinite ease-in-out both;
+
+                &:nth-child(1) { animation-delay: -0.32s; }
+                &:nth-child(2) { animation-delay: -0.16s; }
+            }
+        }
+    }
+}
+
+@keyframes slideUpFadeInline {
+    0% {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lockonInlineBounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}

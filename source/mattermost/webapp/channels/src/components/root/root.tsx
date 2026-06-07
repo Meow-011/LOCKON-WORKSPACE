@@ -31,6 +31,7 @@ import {WithUserTheme} from 'components/theme_provider';
 import webSocketClient from 'client/web_websocket_client';
 import {initializePlugins} from 'plugins';
 import {initializeLockon} from 'plugins/lockon_init';
+import LockonAIInlineWidget from 'components/lockon_ai/lockon_ai_inline';
 import 'utils/a11y_controller_instance';
 import {expirationScheduler} from 'utils/burn_on_read_expiration_scheduler';
 import {PageLoadContext, SCHEDULED_POST_URL_SUFFIX} from 'utils/constants';
@@ -500,6 +501,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         </div>
                         <GlobalClassificationBanner position='bottom'/>
                         <Pluggable pluggableName='Global'/>
+                        <LockonAIInlineWidget/>
                         <AppBar/>
                         <Readout/>
                     </WithUserTheme>
